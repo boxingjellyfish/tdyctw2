@@ -200,6 +200,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlayController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,9 +209,22 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Extensions\MiscExtensions.cs" />
+    <Compile Include="Server\Sandbox\SandboxHub.cs" />
+    <Compile Include="Server\Sandbox\SandboxStorage.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\audio\beep-29.wav" />
+    <Content Include="Content\audio\button-33a.wav" />
+    <Content Include="Content\audio\button-35.wav" />
+    <Content Include="Content\audio\button-46.wav" />
+    <Content Include="Content\audio\intro.mp3" />
+    <Content Include="Content\audio\menu.mp3" />
+    <Content Include="Content\img\base.png" />
+    <Content Include="Content\img\base_sprite.png" />
+    <Content Include="Content\img\bjs-green.png" />
+    <Content Include="Content\img\cursor.png" />
     <Content Include="Content\styles\bootstrap-theme.css" />
     <Content Include="Content\styles\bootstrap-theme.min.css" />
     <Content Include="Content\styles\bootstrap.css" />
@@ -229,7 +244,9 @@
     <Content Include="Content\styles\bootstrap.css.map" />
     <Content Include="Content\styles\bootstrap-theme.min.css.map" />
     <Content Include="Content\styles\bootstrap-theme.css.map" />
+    <Content Include="Content\txt\strings_en.json" />
     <None Include="Scripts\lib\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\lib\delaunay-1.0.1.js" />
     <Content Include="Scripts\lib\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\lib\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
@@ -244,10 +261,14 @@
     <Content Include="Scripts\lib\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\lib\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\lib\modernizr-2.8.3.js" />
+    <Content Include="Scripts\lib\phaser-2.7.6.js" />
+    <Content Include="Scripts\lib\phaser-2.7.6.min.js" />
+    <Content Include="Scripts\lib\phaser-debug-1.1.9.js" />
     <Content Include="Scripts\lib\respond.js" />
     <Content Include="Scripts\lib\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\lib\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\lib\respond.min.js" />
+    <Content Include="Scripts\lib\rhill-voronoi-core-1.0.0.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -259,8 +280,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -283,11 +302,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="tsconfig.json" />
+    <Content Include="Views\Play\Index.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\js\" />
-    <Folder Include="Scripts\typings\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -304,7 +324,27 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\ts\Game.ts" />
+    <TypeScriptCompile Include="Scripts\ts\Sprite\BaseSprite.ts" />
+    <TypeScriptCompile Include="Scripts\ts\State\BootState.ts" />
+    <TypeScriptCompile Include="Scripts\ts\State\MainMenuState.ts" />
+    <TypeScriptCompile Include="Scripts\ts\State\PlayState.ts" />
+    <TypeScriptCompile Include="Scripts\ts\State\PreloaderState.ts" />
     <TypeScriptCompile Include="Scripts\ts\Test.ts" />
+    <TypeScriptCompile Include="Scripts\ts\Util\Misc.ts" />
+    <TypeScriptCompile Include="Scripts\ts\Util\ZoomCamera.ts" />
+    <TypeScriptCompile Include="Scripts\typings\delaunay.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\p2.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\phaser.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\pixi.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\voronoi.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cdDelaunay\cdDelaunay.csproj">
+      <Project>{41fd5948-0eff-4482-995b-308a6199403f}</Project>
+      <Name>cdDelaunay</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

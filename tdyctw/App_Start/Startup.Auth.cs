@@ -63,6 +63,9 @@ namespace tdyctw
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            // SignalR startup
+            app.MapSignalR();
         }
     }
 }

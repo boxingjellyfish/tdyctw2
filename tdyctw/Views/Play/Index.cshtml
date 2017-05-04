@@ -1,0 +1,78 @@
+﻿@using tdyctw.Server.Extensions;
+@{
+    ViewBag.Title = "TDYCTW";
+}
+<div style="text-align:center;">
+    <p></p>
+    <div id="gameContainer" style="cursor:url('/Content/img/cursor.png'), auto;"></div>
+    <p></p>
+    <button id="goFullScreen">FullScreen</button>
+    <button id="goToBootState">Boot</button>
+    <button id="goToMainMenuState">Menu</button>
+    <button id="goToPlayState">Play</button>
+    <button id="addDebugPlugin">Debug</button>
+    <p>Current players:</p>
+    <div id="playerList"></div>
+</div>
+@section Scripts {
+    <script src="~/Scripts/lib/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/Scripts/lib/phaser-2.7.6.min.js"></script>
+    <script src="~/Scripts/lib/phaser-debug-1.1.9.js"></script>
+    <script src="~/Scripts/lib/rhill-voronoi-core-1.0.0.min.js"></script>
+    <script src="~/Scripts/lib/delaunay-1.0.1.js"></script>
+    <script src="~/Scripts/tdyctw.js?@(MiscExtensions.DebugResourceSuffix())"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+
+        var game = null;
+
+        var ratio = 1920 / 1080;
+        var w = 0;
+        var h = 0;
+
+        $(document).ready(function () {
+
+            var sandboxhub = $.connection.sandboxHub;
+
+            sandboxhub.client.broadcastJoinGame = function (message) {
+                $("#playerList").append("<p>" + message + "</p>");
+            };
+
+            $.connection.hub.start().done(function () {
+                var id = tdyctw.Misc.generateUID();
+                sandboxhub.server.joinGame(id);
+            });
+
+            $("#goFullScreen").click(function () {
+                game.scale.startFullScreen(false);
+            });
+            $("#goToBootState").click(function () {
+                game.state.start("BootState");
+            });
+            $("#goToMainMenuState").click(function () {
+                game.state.start("MainMenuState");
+            });
+            $("#goToPlayState").click(function () {
+                game.state.start("PlayState");
+            });
+            $("#addDebugPlugin").click(function () {
+                game.add.plugin(Phaser.Plugin.Debug);
+            });
+
+            w = $("#gameContainer").width();
+            h = w / ratio;
+
+            game = new tdyctw.Game(w, h);
+
+            $(window).resize(function () {
+                if (w != $("#gameContainer").width()) {
+                    w = $("#gameContainer").width();
+                    h = w / ratio;
+                    game.scale.setGameSize(w, h);
+                }
+            });
+
+        });
+
+    </script>
+}

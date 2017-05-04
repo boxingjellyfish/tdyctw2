@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace tdyctw.Controllers
 {
-    public class HomeController : Controller
+    public class TestController : Controller
     {
+        // GET: Test
         public ActionResult Index()
         {
             return View();
